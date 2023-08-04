@@ -10,25 +10,45 @@ function App() {
 
   return (
     <main className="main">
-      <BoxesContainer>
+      <NumbersContainer>
         {firstBoxElements.map((element) => {
           return <Box key={element.id} element={element} />;
         })}
-      </BoxesContainer>
+      </NumbersContainer>
 
-      <BoxesContainer></BoxesContainer>
+      <SquaresContainer
+        setFirstBoxElements={setFirstBoxElements}
+        setSecondBoxElements={setSecondBoxElements}
+      >
+        {secondBoxElements.map((element) => {
+          return <Box key={element.id} element={element} />;
+        })}
+      </SquaresContainer>
     </main>
   );
 }
 
-const BoxesContainer = ({ children }) => {
+const NumbersContainer = ({ children }) => {
+  return <div className="boxes-container">{children}</div>;
+};
+
+const SquaresContainer = ({
+  setFirstBoxElements,
+  setSecondBoxElements,
+  children,
+}) => {
   const dragOverHandler = (event) => {
     event.preventDefault();
   };
 
+  console.log(setFirstBoxElements);
+
   const dropHandler = (event) => {
     const itemId = Number(event.dataTransfer.getData("text/plain"));
     console.log("You are going to drop the element with ID: ", itemId);
+    // Remove the itemId of the firstBoxElements
+    setFirstBoxElements([]);
+    setSecondBoxElements([{ id: 1, value: 1 }]);
   };
 
   return (
